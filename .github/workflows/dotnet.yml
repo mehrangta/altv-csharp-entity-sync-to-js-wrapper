@@ -2,8 +2,9 @@ name: .NET Build
 
 on:
   push:
-    tags:
-      - "v*"
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
 
 jobs:
   build:
@@ -28,13 +29,19 @@ jobs:
       - run: |
           (cd ./dist/net6.0/publish && zip -r ../../../entitysync-wrapper.zip *)
 
+      - name: Assemble Artifact
+        id: assemble_artifact
+        run: |
+          release_tag="entitysyncwrapper-$(date +%Y-%m-%d)"
+          echo "##[set-output name=release_tag;]$release_tag"
+
       - id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: release ${{ github.ref }}
+          tag_name: ${{ steps.assemble_artifact.outputs.release_tag }}
+          release_name: ${{ steps.assemble_artifact.outputs.release_tag }}
           draft: false
 
       - id: upload_release
