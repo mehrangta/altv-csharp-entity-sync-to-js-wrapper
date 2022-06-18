@@ -29,4 +29,22 @@ jobs:
 
     - run: |
           (cd ./dist/net6.0/publish && zip -r ../../../entitysync-wrapper.zip *)
-    - run: ls
+
+    - id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{GITHUB_REF##*/}}
+          release_name: Version ${{GITHUB_REF##*/}}
+          draft: true
+
+      - id: Upload Release 
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./entitysync-wrapper.zip
+          asset_name: entitysync-wrapper.zip
+          asset_content_type: application/zip
