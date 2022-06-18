@@ -29,23 +29,19 @@ jobs:
       - run: |
           (cd ./dist/net6.0/publish && zip -r ../../../entitysync-wrapper.zip *)
 
-      - name: Get tag name from ref
-        shell: bash
-        run: echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
-        id: get_tag
-      - name: Create tag in public repository
-        run: |
-          cd ${{github.workspace}}
-          git tag ${{ steps.get_tag.outputs.tag }}
-          git push --tags --porcelain
+      - name: conventional Changelog Action
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@v3.7.1
+        with:
+          github-token: ${{ secrets.github_token }}
 
       - id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.get_tag.outputs.tag }}
-          release_name: Release ${{ steps.get_tag.outputs.tag }}
+          tag_name: ${{ steps.changelog.outputs.tag }}
+          release_name: Release ${{ steps.changelog.outputs.tag }}
           draft: false
 
       - id: upload_release
