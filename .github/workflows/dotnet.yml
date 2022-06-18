@@ -29,20 +29,23 @@ jobs:
       - run: |
           (cd ./dist/net6.0/publish && zip -r ../../../entitysync-wrapper.zip *)
 
-      - name: Generate build number
-        uses: einaregilsson/build-number@v3
-        with:
-          token: ${{secrets.github_token}}
-      - name: Print new build number
-        run: echo "Build number is $BUILD_NUMBER"
+      - name: Get tag name from ref
+        shell: bash
+        run: echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
+        id: get_tag
+      - name: Create tag in public repository
+        run: |
+          cd ${{github.workspace}}/another_public_repo
+          git tag ${{ steps.get_tag.outputs.tag }}
+          git push --tags --porcelain
 
       - id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v1.${{steps.buildnumber.outputs.build_number}}
-          release_name: ${{steps.buildnumber.outputs.build_number}}
+          tag_name: ${{ steps.get_tag.outputs.tag }}
+          release_name: Release ${{ steps.get_tag.outputs.tag }}
           draft: false
 
       - id: upload_release
