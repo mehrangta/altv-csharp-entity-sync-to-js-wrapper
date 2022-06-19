@@ -26,7 +26,12 @@ jobs:
       - name: Publish
         run: dotnet publish -c Release
 
-      - run: |
+      - name: Make resource.cfg file
+        run: |
+          (cd ./dist/net6.0/publish && touch resource.cfg && printf "type: csharp\nmain: GameEntityScript.dll" > resource.cfg)
+
+      - name: Zip files
+        run: |
           (cd ./dist/net6.0/publish && zip -r ../../../entitysync-wrapper.zip *)
 
       - name: Create release tag

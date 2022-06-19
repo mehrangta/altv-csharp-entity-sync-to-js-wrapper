@@ -12,8 +12,5 @@ This is a C# resource which exposes https://fabianterhorst.github.io/coreclr-mod
 
 To use this package download the files from [Release](https://github.com/mehrangta/altv-csharp-entity-sync-to-js-wrapper/releases/latest) page.
 Extract the downloaded package in your `resources` folder
-Make a file and name it `resource.cfg` and paste this code in the file :
 
-    type: csharp
-    main: GameEntityScript.dll
 
