@@ -3,5 +3,6 @@
     "config:base",
     ":dependencyDashboard"
   ],
-  "prHourlyLimit": 4
+  "prHourlyLimit": 4,
+  "automerge": true
 }
