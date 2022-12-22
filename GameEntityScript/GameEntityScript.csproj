@@ -15,7 +15,7 @@
   <ItemGroup>
     <PackageReference Include="AltV.Net" Version="13.0.12" />
     <PackageReference Include="AltV.Net.EntitySync" Version="1.18.0" />
-    <PackageReference Include="AltV.Net.EntitySync.ServerEvent" Version="13.0.10" />
+    <PackageReference Include="AltV.Net.EntitySync.ServerEvent" Version="13.0.12" />
   </ItemGroup>
 
 </Project>
