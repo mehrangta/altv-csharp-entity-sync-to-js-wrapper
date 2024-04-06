@@ -1,7 +1,7 @@
 
 # altv-csharp-entity-sync-to-js-wrapper
 
-  
+## DEPRECATED -- USE [VirtualEntity](https://docs.altv.mp/js/api/alt-client.VirtualEntity.html) INSTEAD
 
 ## What is this?
 
